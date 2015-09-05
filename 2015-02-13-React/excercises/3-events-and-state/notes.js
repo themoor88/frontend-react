@@ -1,3 +1,7 @@
+// Addding event handlers in actualy HTML was bad because the functions would have to
+// be called in the global namespace. Now, the scope of onClick is defined and does not
+// pollute the global namespace.
+
 var React = require('react');
 
 var alertStuff = () => {
