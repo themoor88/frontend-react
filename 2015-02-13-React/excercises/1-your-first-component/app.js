@@ -42,4 +42,3 @@ var Menu = React.createClass({
 React.render(<Menu/>, document.body, () => {
   require('./tests').run();
 });
-

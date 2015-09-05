@@ -10,8 +10,8 @@
 // - in emailType, what if the prop name isn't email? what if we wanted
 //   the prop to be "userEmail" or "loginId"? Switch the Gravatar
 //   prop name from "email" to "loginId", send a bad value, and then
-//   fix the code to make the warning make sense.
-// - how many times does `getDefaultProps` get called?
+//   fix the code to make the warning make sense. props[propName]
+// - how many times does `getDefaultProps` get called? ONCE on the first render on the first component.
 // - experiment with some of the other propTypes, send improper values
 //   and look at the messages you get
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,20 +24,28 @@ var warning = require('react/lib/warning');
 var GRAVATAR_URL = "http://gravatar.com/avatar";
 
 var USERS = [
-  { id: 1, name: 'Ryan Florence', email: 'rpflorencegmail.com' },
+  { id: 1, name: 'Ryan Florence', email: 'rpflorence@gmail.com' },
   { id: 2, name: 'Michael Jackson', email: 'mjijackson@gmail.com' }
 ];
 
 var emailType = (props, propName, componentName) => {
   warning(
-    validateEmail(props.email),
-    `Invalid email '${props.email}' sent to 'Gravatar'. Check the render method of '${componentName}'.`
+    validateEmail(props[propName]),
+    `Invalid email '${props[propName]}' sent to 'Gravatar'. Check the render method of '${componentName}'.`
+  );
+};
+
+var sizeType = (props, propName, componentName) => {
+  warning(
+    !isNaN(parseInt(props[propName])),
+    'Hey I can\'t make that into a number.'
   );
 };
 
 var Gravatar = React.createClass({
   propTypes: {
-    email: emailType
+    email: emailType,
+    size: sizeType
   },
 
   getDefaultProps () {
@@ -56,7 +64,7 @@ var Gravatar = React.createClass({
 
 var App = React.createClass({
   render () {
-    var users = USERS.map((user) => {
+    var users = this.props.users.map((user) => {
       return (
         <li key={user.id}>
           <Gravatar email={user.email} size={36} /> {user.name}
@@ -72,7 +80,7 @@ var App = React.createClass({
   }
 });
 
-React.render(<App />, document.body);
+React.render(<App users={USERS}/>, document.body);
 
 //require('./tests').run(Gravatar, emailType);
 
