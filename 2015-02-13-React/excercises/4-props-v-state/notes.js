@@ -23,6 +23,7 @@ var ContentToggle = React.createClass({
   render () {
     var details;
     var summaryClassName = 'ContentToggle__Summary';
+    // BEM Naming for CSS classes.
 
     if (this.props.isOpen) {
       details = this.props.children;
@@ -52,6 +53,7 @@ var ContentToggle = React.createClass({
   }
 });
 
+// Instead of modifying state within components, send them down as props.
 var App = React.createClass({
   getInitialState () {
     return {

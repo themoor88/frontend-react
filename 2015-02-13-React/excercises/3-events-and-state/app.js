@@ -18,6 +18,7 @@ var App = React.createClass({
     };
   },
 
+  // In ES6 shortcuts, you don't have to repeat yourself if the property is the same as the argument.
   handleClick (activeTabIndex) {
     this.setState({ activeTabIndex });
   },
